@@ -1,55 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Sort Without Articles</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sort Without Articles</title>
+  </head>
+  <body>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+        background: url("https://source.unsplash.com/nDqA4d5NL0k/2000x2000");
+        background-size: cover;
+        display: flex;
+        align-items: center;
+        min-height: 100vh;
+      }
 
-  <style>
-    body {
-      margin: 0;
-      font-family: sans-serif;
-      background: url("https://source.unsplash.com/nDqA4d5NL0k/2000x2000");
-      background-size: cover;
-      display: flex;
-      align-items: center;
-      min-height: 100vh;
-    }
+      #bands {
+        list-style: inside square;
+        font-size: 20px;
+        background: white;
+        width: 500px;
+        margin: auto;
+        padding: 0;
+        box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
+      }
 
-    #bands {
-      list-style: inside square;
-      font-size: 20px;
-      background: white;
-      width: 500px;
-      margin: auto;
-      padding: 0;
-      box-shadow: 0 0 0 20px rgba(0, 0, 0, 0.05);
-    }
-    
-    #bands li {
-      border-bottom: 1px solid #efefef;
-      padding: 20px;
-    }
-    
-    #bands li:last-child {
-      border-bottom: 0;
-    }
+      #bands li {
+        border-bottom: 1px solid #efefef;
+        padding: 20px;
+      }
 
-    a {
-      color: #ffc600;
-      text-decoration: none;
-    }
+      #bands li:last-child {
+        border-bottom: 0;
+      }
 
-  </style>
+      a {
+        color: #ffc600;
+        text-decoration: none;
+      }
+    </style>
 
-  <ul id="bands"></ul>
+    <ul id="bands"></ul>
 
-<script>
-const bands = ['The Plot in You', 'The Devil Wears Prada', 'Pierce the Veil', 'Norma Jean', 'The Bled', 'Say Anything', 'The Midway State', 'We Came as Romans', 'Counterparts', 'Oh, Sleeper', 'A Skylit Drive', 'Anywhere But Here', 'An Old Dog'];
+    <script>
+      const bands = [
+        "The Plot in You",
+        "The Devil Wears Prada",
+        "Pierce the Veil",
+        "Norma Jean",
+        "The Bled",
+        "Say Anything",
+        "The Midway State",
+        "We Came as Romans",
+        "Counterparts",
+        "Oh, Sleeper",
+        "A Skylit Drive",
+        "Anywhere But Here",
+        "An Old Dog",
+      ];
 
+      // const sortedBands = bands
+      //   .map((band) => band.replace(/^\s*(the |a |an )/gi, ""))
+      //   .sort();
 
-</script>
+      // const bandsList = document.getElementById("bands");
 
-</body>
+      // for (const sortBand of sortedBands) {
+      //   const fullBand = bands.find((band) => band.includes(sortBand));
+      //   bandsList.innerHTML += `
+      //   <li>${fullBand}</li>
+      //   `;
+      // }
+
+      const videos = [...document.querySelectorAll(".video.null")];
+      const durations = [
+        ...videos.map((video) => video.querySelector(".duration").innerText),
+      ];
+
+      const parseTime = (time) => time.split(":").map(parseFloat);
+
+      const totals = durations.reduce(
+        (acc, time) => {
+          const [secs, mins] = parseTime(time);
+          acc[0] += secs;
+          acc[1] += mins;
+          return acc;
+        },
+        [0, 0]
+      );
+
+      const formatTime = (time) => (`${time}`.length === 1 ? `0${time}` : time);
+
+      const minsFromSecs = Math.floor(totals[1] / 60);
+      const secs = totals[1] % 60;
+      const totalMins = totals[0] + minsFromSecs;
+      const hours = Math.floor(totalMins / 60);
+      const mins = totalMins % 60;
+
+      const totalTimeString = `${hours}:${formatTime(mins)}:${formatTime(
+        secs
+      )}`;
+      console.info(`time left in courses: ${totalTimeString}`);
+    </script>
+  </body>
 </html>
